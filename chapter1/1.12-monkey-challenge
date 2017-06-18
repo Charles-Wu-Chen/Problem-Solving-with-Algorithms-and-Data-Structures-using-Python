@@ -1,0 +1,60 @@
+import random
+
+alphabet = "abcdefghijklmnopqrstuvwxyz "
+
+def attempt(strlen):
+
+    value = ""
+    for letter in range(strlen):
+        value = value + alphabet[random.randrange(27)]
+
+    return value
+
+
+def score(goal, teststring):
+    numSame = 0
+    for i in range(len(goal)):
+        if goal[i] == teststring[i]:
+            numSame = numSame + 1
+    return numSame / len(goal)
+
+
+def main():
+    goalstring = "methinks it is like a weasel"
+    newstring = attempt(28)
+
+    for position in range(len(goalstring)):
+        beststring = find_best_at_position(newstring, goalstring, position)
+        newstring = beststring
+        print(beststring)
+    # bestscore = 0
+    # beststring = ""
+    # newscore = score(goalstring, newstring)
+    # loopcount = 0
+    # while newscore < 1:
+    #     if newscore > bestscore:
+    #         print(newscore, newstring)
+    #         bestscore = newscore
+    #         beststring = newstring
+    #     newstring = attempt(28)
+    #     newscore = score(goalstring, newstring)
+    #
+    #     if loopcount % 1000000 == 0:
+    #         print(bestscore, beststring)
+    #     loopcount = loopcount + 1
+
+
+def find_best_at_position(teststring, goalstring, position):
+
+    bestscore = 0
+    beststring = ''
+    for i in range(len(alphabet)):
+        newstring = teststring[:position]+alphabet[i]+teststring[position+1:] # to replace each possible char in the string
+        newscore = score(goalstring, newstring)
+        if newscore > bestscore:
+            bestscore = newscore
+            beststring = newstring
+    return beststring
+
+
+main()
